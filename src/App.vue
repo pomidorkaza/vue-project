@@ -1,56 +1,122 @@
 <template>
   <div id="app">
-  <div>
-     <div class="input-wrapper">
-       
-      <label class="box-label" for="box-input">Введите название коробки</label>
-      <input id="box-input" type="text" class="custom-input" v-model="newItem"/>
-   <button class="btn btn-square btn-lg btn-filled-green" @click="addItem">Добавить</button>
- 
- </div>
-  <ListItem v-for="item in items"
-      :name="item.name"
-      :number="item.id"
-      :key="item.id">
-          
-      </ListItem>
-    </div>
+  
+  <div class="widgets-container"> 
     
+    <div class="books-container" v-if="filteredBooks.length===0">
+      
+      <Book v-for="(book,i) in books" :key="i" title="Автор"
+            :author="book.author"
+            :data="book.data"
+             :janre="book.janre"
+      ></Book>
+
+    </div>
+    <div class="books-container" v-else>
+ <Book v-for="(book,i) in filteredBooks" :key="i" title="Автор"
+            :author="book.author"
+            :data="book.data"
+            :janre="book.janre"
+      ></Book>
+    </div>
+<div class="btn-container">
+  <div class="btn-container-filter-fields">
+    <input 
+    placeholder="Отфильтровать по автору"
+    v-model="formData.author"/>
+    <select v-model="formData.janre">
+      <option value="classic" >Классика</option>
+      <option value="fantastic" >Фантастика</option>
+      <option value="fantasy" >Фэнтези</option>
+      <option value="advanture" >Приключение</option>
+     
+       
+    </select>
+  </div>
+      <button class="btn-container-item" @click="showAllBooks">Показать все</button>
+      <button class="btn-container-item" @click="fillFilterBooks">Отфильтровать</button>
+    
+    </div>
+</div>
+
   </div>
 </template>
 
 <script>
-import ListItem from './components/ListItem';
-export default {
+import Book from './components/Book';
+ export default {
   name: 'App',
   data(){
     return {
-      newItem:"",
-      items:[{
-        id: 1,
-        name:'box 1'
+      filteredBooks:[],
+      
+      formData:{
+        name: "",
+        janre:"",
+        data:"",
+        author:""
       },
-      {
-        id: 2,
-        name:'box 2'
-      }]
+      books:[
+        {
+          id:1,
+          name:"В поисках...",
+          janre:"fantasy",
+          data: Math.floor( new Date().getFullYear()/( Math.floor(Math.random()*30+1 ))) ,         
+          author:"Артем Семенович Вяземский"
+        },
+        {
+          id:2,
+          janre:"classic",
+          name:"В поисках...",
+          data: Math.floor( new Date().getFullYear()/( Math.floor(Math.random()*30+1 ))) ,         
+          author:"Семен Игнатьевич Урсовский"
+        },
+        {
+          id:3,
+          janre:"advanture",
+          data: Math.floor( new Date().getFullYear()/( Math.floor(Math.random()*30+1 ))) ,         
+          
+          name:"Домик на 35-ой",
+          author:"Михаил Астафович Успенский"
+        
+        },
+        {
+          id:4,
+          janre:"advanture",
+          data: Math.floor( new Date().getFullYear()/( Math.floor(Math.random()*30+1 ))) ,         
+          
+          name:"147ая миля",
+          author:"Захар Петров Курковский"
+        
+        }
+      ]
     }
   },
+
   methods:{
-    addItem(){
-        const {newItem} = this;
-        let newItems = [...this.items];
-    if(newItem){
-      newItems.push({id:this.items.length+1,name:newItem });
-      this.items = newItems;
-      this.newItem = "";
-        }
-
+    showAllBooks(){
+      this.filteredBooks =[];
     },
+    fillFilterBooks(){
+      let {author,janre } = this.formData;
+this.filteredBooks = this.books;
+  if(author){
+      this.filteredBooks =   this.filteredBooks.filter((item)=>item.author.indexOf(author.trim()) !==-1 );
 
+
+  }
+  
+if(janre){
+  this.filteredBooks = this.filteredBooks.filter(item=>item.janre===janre);
+}
+
+  for(let prop in this.formData){
+    this.formData[prop]="";
+  }
+}
   },
   components: {
-    ListItem
+    Book
   }
 }
 </script>
@@ -61,7 +127,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   margin-top: 60px;
 }
 
@@ -74,68 +139,59 @@ h1 {
 }
 
 body {
-   color: #fff;
+  background:linear-gradient(45deg, rgba(223, 25, 223, 0.867), rgb(0, 255, 179));
   margin: 1em;
+  width: 100%;
+  height: 100vh;
 }
 
-.btn:not(last-child) {
-  margin-right: 1em;
-}
 
-h2 {
-  padding-bottom: 1em;
-  padding-top: 1em;
-  color: #fff;
-  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-  font-weight: 300;
-}
-
-.btn {
-  width: 200px;
-  margin: 10px 0 0 0;
-  cursor: pointer;
-  color: #fff;
-  font-size: 16px;
-  background-color: transparent;
-  outline: 0;
-  padding: 0.5rem 1rem;
-  -moz-transition: background-color 0.3s ease;
-  -o-transition: background-color 0.3s ease;
-  -webkit-transition: background-color 0.3s ease;
-  transition: background-color 0.3s ease;
-  font-family: "Ubuntu", sans-serif;
-}
-
-.btn-square {
-  border: 0;
-}
-
-.btn-filled-green {
-  background-color: #2ecc71;
-}
-.btn-filled-green:hover {
-  background-color: #25a25a;
-}
-.btn-filled-green:active {
-  -moz-box-shadow: inset 0 0 100px #1b7943;
-  -webkit-box-shadow: inset 0 0 100px #1b7943;
-  box-shadow: inset 0 0 100px #1b7943;
-}
-.custom-input{
-  width: 250px;
-  height: 30px;
-  line-height: 30px;
-  background: transparent;
-  font-size: 20px;
-  font-weight: 600;
-}
-.input-wrapper{
+.btn-container{
   display: flex;
   flex-flow: column;
-  width: 400px;
+  justify-content: space-around;
+  width: 200px;
+  margin: 0 0 0 20px;
+  max-height: 100px;
 }
-.box-label{
-  text-align: start;
+.btn-container-item{
+  width: 120px;
+text-align: center;
+  background: transparent;
+  border-radius: 8px;
+  padding: 10px 8px ;
+  color: rgba(223, 25, 223, 0.867);
+
+  border: 2px solid rgba(223, 25, 223, 0.867);
+  cursor: pointer;
+  margin: 5px 10px;
+}
+.widgets-container{
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+}
+.books-container{
+  width: 620px;
+  height: 640px;
+  display: flex;
+  flex-wrap: wrap;
+  background: #f2ff2f;
+} 
+.btn-container-filter-fields{
+  width: 100%;
+  
+}
+.btn-container-filter-fields>input{
+  height: 30px;
   font-size: 16px;
+  margin: 5px 10px;
+  line-height: 30px;
+}
+select{
+  width:100%;
+  margin: 5px 10px;
+  height: 30px;
+  line-height:30px;
 }
 </style>
