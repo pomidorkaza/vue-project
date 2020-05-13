@@ -6,9 +6,11 @@
     <div class="books-container" v-if="filteredBooks.length===0">
       
       <Book v-for="(book,i) in books" :key="i" title="Автор"
+            :id="book.id"
             :author="book.author"
             :data="book.data"
              :janre="book.janre"
+             @editCurrentBook="editCurrentBookListener"
       ></Book>
 
     </div>
@@ -94,6 +96,16 @@ import Book from './components/Book';
   },
 
   methods:{
+    editCurrentBookListener({id,...restProps}){
+      
+      let updatedBooks = [...this.books];
+      let index = updatedBooks.findIndex((item)=>item.id===id);
+      
+      
+      updatedBooks[index]= {id:id,
+      ...restProps};
+      this.books = updatedBooks;
+    },
     showAllBooks(){
       this.filteredBooks =[];
     },
@@ -172,8 +184,7 @@ text-align: center;
   display: flex;
 }
 .books-container{
-  width: 620px;
-  height: 640px;
+  width: 620px; 
   display: flex;
   flex-wrap: wrap;
   background: #f2ff2f;
