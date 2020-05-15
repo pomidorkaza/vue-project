@@ -13,9 +13,10 @@
           placeholder="новый автор"
     /></h3>
     <div class="books-container-item-bottom">
-      <span class="books-container-item-bottom-el">Название: {{ title }}</span>
+      <span class="books-container-item-bottom-el">Название: {{ name }}</span>
       <span class="books-container-item-bottom-el" v-if="isEdditing">
-        <input v-model="newFields.title"
+        <input v-model="newFields.name"
+                
                 placeholder="название книги"
         /></span>
       <span class="books-container-item-bottom-el"
@@ -56,8 +57,9 @@ data(){
 
       newFields:{
         author:"",
-        title:"",
-        janre:""
+        name:"",
+        janre:"",
+        data:""
       },
         isEdditing:false,
 translator:{
@@ -69,10 +71,19 @@ translator:{
 }
     }
 },
+
+created(){
+  this.newFields.author = this.author;
+  this.newFields.name = this.name;
+  this.newFields.data = this.data;
+  this.newFields.janre = this.janre;
+  
+  // console.log('created');
+},
 props: {
     id: String|Number,
     author: String,
-    title: String,
+    name: String,
     data: Number|String,
     janre: String,
   },

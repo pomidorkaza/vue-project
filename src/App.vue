@@ -5,17 +5,19 @@
     
     <div class="books-container" v-if="filteredBooks.length===0">
       
-      <Book v-for="(book,i) in books" :key="i" title="Автор"
+      <Book v-for="(book,i) in books" :key="i" 
+            :name="book.name"
             :id="book.id"
             :author="book.author"
             :data="book.data"
-             :janre="book.janre"
-             @editCurrentBook="editCurrentBookListener"
+            :janre="book.janre"
+          @editCurrentBook="editCurrentBookListener"
       ></Book>
 
     </div>
     <div class="books-container" v-else>
- <Book v-for="(book,i) in filteredBooks" :key="i" title="Автор"
+ <Book v-for="(book,i) in filteredBooks" :key="i" 
+            :name="book.name"
             :author="book.author"
             :data="book.data"
             :janre="book.janre"
