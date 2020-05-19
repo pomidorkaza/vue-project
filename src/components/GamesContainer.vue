@@ -2,6 +2,7 @@
     
     <div class="game-container">
         <Game v-for="game in allGames"
+            :id="game.id"
             :key="game.id"
             :name="game.name"
             :price="game.price"

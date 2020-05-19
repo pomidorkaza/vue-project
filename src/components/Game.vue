@@ -9,7 +9,10 @@
         <span class="game-el-desc-price">Цена:{{price}} Р</span>   
         <span class="game-el-desc-janre">Жанр:{{janre}}</span>
         <span class="game-el-desc-data">Год релиза:{{relize_data}}</span>
-        <button class="btn primary-btn game-el-btn">Добавить в корзину</button>
+        
+        <router-link :to="link_to"> 
+          <button class="btn primary-btn game-el-btn">Добавить в корзину</button>
+        </router-link>
     </div>
     </div>
 </template>
@@ -23,6 +26,7 @@ export default {
   computed: mapGetters(['allGames']),
 
   props:{
+        id:String|Number,
         name:String,
         price:Number,
         janre:String,
@@ -31,7 +35,7 @@ export default {
     },
     data(){
         return {
-
+          link_to:'/games/'+this.id
         }
     },
     

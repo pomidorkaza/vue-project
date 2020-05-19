@@ -38,7 +38,7 @@ const actions = {
             name: "Assasin's Creed",
             price: 2599,
             relize_data: 2013,
-            img: 'https://main-cdn.goods.ru/mid9/hlr-system/1630060/100023690252b1.jpg'
+            img: 'https://upload.wikimedia.org/wikipedia/ru/thumb/5/52/Assassin%27s_Creed.jpg/274px-Assassin%27s_Creed.jpg'
         },
         {
             id: 4,

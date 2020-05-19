@@ -1,7 +1,10 @@
 <template>
 
   <div id="app">
-      
+      <ul>
+         <router-link to="/">Главная страница</router-link>
+    <router-link to="/games/3">перейти к корзине</router-link>
+      </ul>
     <div class="game-container"> 
       <router-view></router-view>
   </div>

@@ -61,17 +61,25 @@ export default {
     display: flex;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-.bucket-container-img-wrapper {
-    flex-basis: 600px;
-}
+ 
 .bucket-container-content {
-    flex: 1;
+    
+    
     display: flex;
+    width: 100%;
+    margin: auto;
     flex-flow: column;
     justify-content: center;
 }
+
+
+.bucket-container-img-wrapper {
+    display: flex;
+    width: 400px;
+}
 .bucket-container-img {
-    width: 100%;
+    max-width: 100%;
+    
     display: block;
 }
 .bucket-container-content-header {
@@ -102,10 +110,11 @@ export default {
     width: 40px;
 }
 .bucket-container-content-btn {
-    width: 200px;
+    width: 220px;
     height: 60px;
     font-size: 26px;
-    border-radius: 8px;
+    margin: 10px 20px;
+    border-radius: 5px;
     border: none;
     color: #fff;
     text-transform: uppercase;
