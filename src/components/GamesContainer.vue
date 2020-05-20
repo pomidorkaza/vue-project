@@ -1,5 +1,5 @@
 <template>
-    
+    <div class="main-wrapper"> 
     <div class="game-container">
         <Game v-for="game in allGames"
             :id="game.id"
@@ -9,14 +9,17 @@
             :janre="game.janre"
             :img="game.img"
             :relize_data="game.relize_data"></Game>
+
     </div>
+    <BucketContainer/>
+   </div>
 </template>
 
 
 <script>
-import {mapGetters, mapActions} from 'vuex';
+import {mapGetters, mapActions, mapMutations} from 'vuex';
 import Game from './Game';
-
+import BucketContainer from './BucketContainer';
 export default {
     name:'GamesContaner',
     methods:{
@@ -30,11 +33,16 @@ export default {
     },
     components:{
         Game,
+        BucketContainer
     }
 }
 </script>
 
 <style scoped>
+.main-wrapper{
+    width: 100%;
+    display: flex;
+}
 .game-container{
     width: 1280px;
     display: flex;

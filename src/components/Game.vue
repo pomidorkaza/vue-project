@@ -10,16 +10,18 @@
         <span class="game-el-desc-janre">Жанр:{{janre}}</span>
         <span class="game-el-desc-data">Год релиза:{{relize_data}}</span>
         
-        <router-link :to="link_to"> 
-          <button class="btn primary-btn game-el-btn">Добавить в корзину</button>
-        </router-link>
+   
+          <button class="btn primary-btn game-el-btn"
+          @click="addGameToBucket(id)"
+          >Добавить в корзину</button>
+
     </div>
     </div>
 </template>
 
 <script>
 
-import {mapGetters} from 'vuex';
+import {mapGetters,mapActions,mapMutations} from 'vuex';
 export default {
   name:'Game',
 
@@ -30,8 +32,11 @@ export default {
         name:String,
         price:Number,
         janre:String,
-        relize_data: Number,
+        relize_data: Number|String,
         img:String,
+    },
+    methods:{
+      ...mapMutations(['addGameToBucket']),
     },
     data(){
         return {

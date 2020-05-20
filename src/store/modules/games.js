@@ -4,77 +4,77 @@ function isEmpty(games){
     return games.length===0;
 }
 const state = {
-    games: []
+    games: [],
+    bucket_games:{
+        
+    }
 };
 
 const getters = {
+
+    getBucketGames:(state)=>{
+        return state.bucket_games;
+    },
+    getAllGamesInBucketKeys:(state)=>{
+        return {keys:Object.keys(state.bucket_games),
+                bucket_games : state.bucket_games
+        };
+
+    },
     allGames:(state)=>state.games,
     getGameById: (state) => (id) => {
-        
         return state.games.find(game => game.id === id);
     }
 
 };
 
 const actions = {
+
+
     async fetchGamesAPI({commit}){
-        const response = await axios.get('http://www.mocky.io/v2/5ec18c872f0000489d4c88ce');
-        const res=[{
-            id: 1,
-            name: "Last of Us",
-            price: 2999,
-            relize_data: 2018,
-            img: 'https://main-cdn.goods.ru/mid9/hlr-system/1630060/100023690252b1.jpg'
-        },
-        {
-            id: 2,
-            name: "Prince of Persia",
-            price: 2599,
-            relize_data: 2016,
-            img: 'https://3dnews.ru/assets/external/illustrations/2020/05/07/1010356/01.jpg'
-        },
-        {
-            id: 3,
-            name: "Assasin's Creed",
-            price: 2599,
-            relize_data: 2013,
-            img: 'https://upload.wikimedia.org/wikipedia/ru/thumb/5/52/Assassin%27s_Creed.jpg/274px-Assassin%27s_Creed.jpg'
-        },
-        {
-            id: 4,
-            name: "FAR CRY 3",
-            price: 1599,
-            relize_data: 2012,
-            img: 'https://www.klasgame.com/thumb/800/uploads/far-cry-3.jpg'
+        const response = await axios.get('http://localhost:3000/games');
 
-        },
-        {
-            id: 5,
-            name: "MAX PAYNE 3",
-            price: 1599,
-            relize_data: 2012,
-            img: 'https://img1.goodfon.ru/original/2560x1600/1/b6/max-payne-3-oruzhie.jpg'
-
-        },
-        {
-            id: 6,
-            name: "FIFA 2018",
-            price: 1599,
-            relize_data: 2018,
-            img: 'https://main-cdn.goods.ru/mid9/hlr-system/1630060/100023690252b1.jpg'
-
-        }];
+        
 
 
-        commit('setAllGames',res);
+        commit('setAllGames',response.data);
 
     }
 };
 
 const mutations = {
+
     setAllGames: (state, games)=>{
         state.games = games;
     },
+    deleteFromBucket:(state,id)=>{
+        console.log('deleted');
+        let newBucket = {...state.bucket_games};
+        delete newBucket[id];
+        state.bucket_games = {...newBucket};
+        
+    },
+    addGameToBucket:(state,id)=>{
+        console.log('addedGameToBucket')
+        let added_game = state.games.find((game)=>game.id===id);
+        state.bucket_games[id] = {
+            name:added_game.name,
+            img:added_game.img,
+            price: added_game.price,
+            amount: 0,
+
+
+        };
+        state.bucket_games = {
+            ...state.bucket_games,
+            [id]:{
+                name:added_game.name,
+                img:added_game.img,
+                price: added_game.price,
+                amount: 0,
+            }
+        }
+    }
     
 };
 

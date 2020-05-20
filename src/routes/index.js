@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import GamesContainer from '../components/GamesContainer';
-import Bucket from '../components/Bucket';
-Vue.use(Router)
+import Order from '../components/Order';
+Vue.use(Router);
 
 export default new Router({
     mode: 'history',
@@ -12,11 +12,15 @@ export default new Router({
     path: '/', 
     component: GamesContainer, 
     },
-    { 
-        path: '/games/:id',
-        props:true, 
-        component: Bucket, 
-        },
+    {
+      path: '/bucket',
+      component:Order
+    }
+    // { 
+    //     path: '/games/:id',
+    //     props:true, 
+    //     component: Bucket, 
+    //     },
    
   ]
 })
