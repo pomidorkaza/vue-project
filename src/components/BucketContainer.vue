@@ -9,7 +9,7 @@
         class="bucket-container-list-item-btn"
         v-on:dblclick="deleteFromBucketListener(value)">X</button>
         {{ getAllGamesInBucketKeys().bucket_games[value].name }}
-        <input type="number"
+        <input type="number" 
             v-model="getAllGamesInBucketKeys().bucket_games[value].amount"
             class="bucket-container-list-item-amount"
         />

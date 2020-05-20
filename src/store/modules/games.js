@@ -1,17 +1,17 @@
 import axios from "axios";
 
-function isEmpty(games){
-    return games.length===0;
-}
+
+const base_url='http://localhost:3000';
 const state = {
     games: [],
     bucket_games:{
         
-    }
+    },
+    succsessOrder: false,
 };
 
 const getters = {
-
+    getSuccessValue:(state)=>state.succsessOrder,
     getBucketGames:(state)=>{
         return state.bucket_games;
     },
@@ -30,9 +30,21 @@ const getters = {
 
 const actions = {
 
-
+    async postOrderOfAllGames({commit,state}){
+        let allBucketsData ={...state.bucket_games};
+        console.log(state.succsessOrder);
+        let response = await axios.post(`${base_url}/order`,{allBucketsData});
+     
+        if(response.data.body){
+            commit('checkSuccess',true);
+        }
+        else {
+            commit('checkSuccess',false);
+        }
+    },
     async fetchGamesAPI({commit}){
-        const response = await axios.get('http://localhost:3000/games');
+        
+        const response = await axios.get(`${base_url}/games`);
 
         
 
@@ -44,6 +56,10 @@ const actions = {
 
 const mutations = {
 
+    checkSuccess:(state,succsessOrderVal)=>{
+        console.log()
+        state.succsessOrder = succsessOrderVal;
+    },
     setAllGames: (state, games)=>{
         state.games = games;
     },
@@ -54,6 +70,7 @@ const mutations = {
         state.bucket_games = {...newBucket};
         
     },
+
     addGameToBucket:(state,id)=>{
         console.log('addedGameToBucket')
         let added_game = state.games.find((game)=>game.id===id);
